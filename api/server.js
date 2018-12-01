@@ -7,6 +7,8 @@ const steam = new SteamAPI('23C3817E9A5B7DC2622F180C62A0946A');
 const express = require('express');
 const app = express();
 
+// localhost:8080/user/76561198070079101
+
 app.get('/user/:user', (req, res) => {
 
   steam.resolve(`https://steamcommunity.com/id/${req.params.user}`)
