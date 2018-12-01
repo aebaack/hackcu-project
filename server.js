@@ -58,10 +58,12 @@ app.get('/user/:user', (req, res) => {
         res.header("Content-Type", "application/json");
         
         res.send(
-          getTopGames(user)
-          //'user': user[0],
-          //'games': user[1],
-          //'friends': user[2]
+          //getTopGames(user)
+          {
+          'user': user[0],
+          'games': user[1],
+          'friends': user[2]
+          }
         );
       })
     })
