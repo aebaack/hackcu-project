@@ -52,6 +52,10 @@ app.get('/user/:user', (req, res) => {
 
       // Return data
       userInfo.then(user => {
+
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        res.header("Content-Type", "application/json");
         
         res.send(
           getTopGames(user)
