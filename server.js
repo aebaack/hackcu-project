@@ -44,9 +44,41 @@ app.get('/user/:user', (req, res) => {
   steam.resolve(`https://steamcommunity.com/id/${req.params.user}`)
     .then(userid => {
 
+
+      const friends = new Promise((resolve, reject) => {
+        steam.getUserFriends(userid)
+          .then(friendsList => {
+
+            let counter = 0;
+
+            const retFriend = {};
+
+            friendsList.forEach(f => {
+              steam.getUserOwnedGames(f.steamID)
+                .then(games => {
+                  const c = games.reduce((a, g) => a + g.playTime, 0);
+
+                  steam.getUserSummary(f.steamID)
+                    .then(sum => {
+                      retFriend[f.steamID] = {
+                        name: sum.nickname,
+                        playTime: c
+                      }
+    
+                      if (++counter == 5) {
+                        resolve(retFriend);
+                      }
+                    });
+                })
+                .catch(e => console.log(e));
+            });
+        });
+      });
+
       const userInfo = Promise.all([steam.getUserSummary(userid),
         steam.getUserOwnedGames(userid),
-        steam.getUserFriends(userid)]);
+        friends]);
+        //steam.getUserFriends(userid)]);
 
       
 
