@@ -11,14 +11,23 @@ const app = express();
 // localhost:8080/user/76561198070079101
 
 function getTopGames(data){
-  var maxGames = [];
+  var names = ['','','','','','','','','',''];
   var maxPlaytime = [0,0,0,0,0,0,0,0,0,0];
-  for(var i = 0; i < data['games'].length; i++){
-    if(data['games']['playTime'] > Math.min(maxPlaytime)){
-      maxPlayTime[maxPlaytime.indexOf(Math.min(maxPlaytime))] = data['games']['playTime'];
+  var maxGames = {}
+  for(var i = 0; i < data[1].length; i++){
+    //console.log(data[1][i]['name']);
+    console.log(maxPlaytime.indexOf(Math.min.apply(null,maxPlaytime)))
+    var index = maxPlaytime.indexOf(Math.min.apply(null,maxPlaytime))
+    if(data[1][i]['playTime'] > Math.min.apply(null,maxPlaytime)){
+      maxPlaytime[index] = data[1][i]['playTime'];
+      names[index] = data[1][i]['name'];
     }
   }
-  return maxPlaytime.sort()
+  //sorted = maxPlaytime.sort()
+  for(var i = 0; i < maxPlaytime.length; i++){
+    maxGames[names[i]] = maxPlaytime[i];
+  }
+  return maxGames
 }
 
 app.get('/user/:user', (req, res) => {
@@ -30,8 +39,11 @@ app.get('/user/:user', (req, res) => {
         steam.getUserOwnedGames(userid),
         steam.getUserFriends(userid)]);
 
+      
+
       // Return data
       userInfo.then(user => {
+        console.log(getTopGames(user));
         res.send({
           'user': user[0],
           'games': user[1],
