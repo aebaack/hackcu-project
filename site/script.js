@@ -7,6 +7,7 @@ $(document).ready(() => {
             console.log("succees");
             console.log(data);
             localStorage.setItem('userObj', JSON.stringify(data));
+            window.location.replace("https://hackcu-api.herokuapp.com/UserInfoScreen.html");
         });
     });
 });
