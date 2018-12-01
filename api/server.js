@@ -1,26 +1,15 @@
 'use strict';
 
-var express = require('express');
 var fs = require('fs');
 
 const SteamAPI = require('steamapi');
 const steam = new SteamAPI('23C3817E9A5B7DC2622F180C62A0946A');
-var express = require('express');
-var app = express();
 
 const express = require('express');
 const app = express();
 
 // localhost:8080/user/76561198070079101
 
-app.get('/user/:user', (req, res) => {
-
-  steam.resolve(`https://steamcommunity.com/id/${req.params.user}`)
-    .then(userid => {
-
-      const userInfo = Promise.all([steam.getUserSummary(userid),
-        steam.getUserOwnedGames(userid),
-        steam.getUserFriends(userid)]);
 function getTopGames(data){
   var maxGames = [];
   var maxPlaytime = [0,0,0,0,0,0,0,0,0,0];
@@ -31,6 +20,15 @@ function getTopGames(data){
   }
   return maxPlaytime.sort()
 }
+
+app.get('/user/:user', (req, res) => {
+
+  steam.resolve(`https://steamcommunity.com/id/${req.params.user}`)
+    .then(userid => {
+
+      const userInfo = Promise.all([steam.getUserSummary(userid),
+        steam.getUserOwnedGames(userid),
+        steam.getUserFriends(userid)]);
 
       // Return data
       userInfo.then(user => {
