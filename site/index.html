@@ -13,9 +13,9 @@
     </head>
     <body class="text-center">
         <h1>Blow Some Steam</h1>
-        <form class="form-search">
+        <form class="form-search" onsubmit="return sendRequest()">
             <h2>Find your steam info</h2>
-            Please Enter your SteamID<input id="searchSteamID" class="form-control" placeholder="SteamID" required="" type="text">
+            Please Enter your SteamID<input id="searchSteamID" placeholder="SteamID" required="" type="text">
             <button id="searchButton" class="btn btn-lg" type="button">Search</button>
         </form>
     </body>
