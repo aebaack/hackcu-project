@@ -64,7 +64,7 @@ app.get('/user/:user', (req, res) => {
 })
 
 app.get('/',function(req,res){
-  res.send('./site/index.html')
+  res.send('../site/index.html')
 })
   
 const server = app.listen(8080, function () {
