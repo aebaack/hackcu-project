@@ -37,7 +37,7 @@ $(document).ready(() => {
         playtime = toString(g.playTime / 60);
         playtime.indexOf('.');
 
-        $('#game-list').append(`<tr><td>${g.name}<br>${time}</td></tr>`)
+        $('#game-list').append(`<tr class="games"><td>${g.name}<br>${time}</td></tr>`)
     });
 
 
