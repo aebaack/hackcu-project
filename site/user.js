@@ -2,10 +2,11 @@
 userObj = JSON.parse(localStorage.getItem('userObj'));
 
 $(document).ready(() => {
-    $('#user-name').text(userObj.user.nickname);
-    $('#avatar').attr('src', userObj.user.avatar.large);
-    $('#steamID').text(userObj.user.steamID);
-    $('#accountDate').text(userObj.user.created);
+    var date = new Date(userObj.user.created);
+  $('#user-name').text(userObj.user.nickname);
+  $('#avatar').attr('src', userObj.user.avatar.large);
+  $('#steamID').text(userObj.user.steamID);
+  $('#accountDate').text(date.getMonth() + "/" + date.getDay() + "/" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes());
 
     var gameslist = userObj.games.sort((g1, g2) => g2.playTime - g1.playTime);
     gameslist.forEach(g => {

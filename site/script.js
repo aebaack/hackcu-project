@@ -1,6 +1,6 @@
 $(document).ready(() => {
     document.getElementById("searchButton").addEventListener("click", function(){
-        sendRequest();
+        sendRequet();
     });
 
 });
