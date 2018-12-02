@@ -15,3 +15,7 @@
     height: 60vh;
     overflow-y: scroll;
 }
+
+.rounded {
+    border-radius: 50%;
+}

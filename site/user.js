@@ -7,6 +7,24 @@ $(document).ready(() => {
     $('#steamID').text(userObj.user.steamID);
     $('#accountDate').text(userObj.user.created);
 
+    $('#friend1').text(userObj.friends[0].name);
+    $('#friend2').text(userObj.friends[1].name);
+    $('#friend3').text(userObj.friends[2].name);
+    $('#friend4').text(userObj.friends[3].name);
+    $('#friend5').text(userObj.friends[4].name);
+    $('#friend6').text(userObj.friends[5].name);
+    $('#friend7').text(userObj.friends[6].name);
+    $('#friend8').text(userObj.friends[7].name);
+
+    $('#avatarFriend1').attr('src', userObj.friends[0].avatar);
+    $('#avatarFriend2').attr('src', userObj.friends[1].avatar);
+    $('#avatarFriend3').attr('src', userObj.friends[2].avatar);
+    $('#avatarFriend4').attr('src', userObj.friends[3].avatar);
+    $('#avatarFriend5').attr('src', userObj.friends[4].avatar);
+    $('#avatarFriend6').attr('src', userObj.friends[5].avatar);
+    $('#avatarFriend7').attr('src', userObj.friends[6].avatar);
+    $('#avatarFriend8').attr('src', userObj.friends[7].avatar);
+
     var gameslist = userObj.games.sort((g1, g2) => g2.playTime - g1.playTime);
     gameslist.forEach(g => {
         if (g.playTime < 60) {
