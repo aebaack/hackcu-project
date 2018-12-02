@@ -1,6 +1,5 @@
 $(document).ready(() => {
     document.getElementById("searchButton").addEventListener("click", function(){
-        console.log("click works");
         sendRequest();
     });
 
@@ -8,14 +7,16 @@ $(document).ready(() => {
 
 
 function sendRequest(){
-    var input = document.getElementById("searchSteamID").value;
-    console.log(input);
-    $.get("https://hackcu-api.herokuapp.com/user/" + input + "", function(data){
-        console.log("succees");
-        console.log(data);
-        sessionStorage.userObj = JSON.stringify(data);
-        window.location.assign("https://hackcu-api.herokuapp.com/UserInfoScreen.html");
-    });
-    return false;
+    const input = document.getElementById("searchSteamID").value;
+
+    if (input) {
+        $.get("https://hackcu-api.herokuapp.com/user/" + input + "", function(data){
+    
+            localStorage.removeItem('userObj');
+            localStorage.setItem('userObj', JSON.stringify(data));
+    
+            window.location.assign("https://hackcu-api.herokuapp.com/UserInfoScreen.html");
+        });
+    }
 }
 
