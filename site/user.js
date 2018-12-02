@@ -2,10 +2,11 @@
 userObj = JSON.parse(localStorage.getItem('userObj'));
 
 $(document).ready(() => {
-    $('#user-name').text(userObj.user.nickname);
-    $('#avatar').attr('src', userObj.user.avatar.large);
-    $('#steamID').text(userObj.user.steamID);
-    $('#accountDate').text(userObj.user.created);
+    var date = new Date(userObj.user.created);
+  $('#user-name').text(userObj.user.nickname);
+  $('#avatar').attr('src', userObj.user.avatar.large);
+  $('#steamID').text(userObj.user.steamID);
+  $('#accountDate').text(date.getMonth() + "/" + date.getDay() + "/" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes());
 
     $('#friend1').text(userObj.friends[0].name);
     $('#friend2').text(userObj.friends[1].name);
@@ -72,7 +73,8 @@ $(document).ready(() => {
                     'rgba(75, 192, 192, 1)',
                     'rgba(153, 102, 255, 1)'
                 ],
-                borderWidth: 1
+                borderWidth: 1,
+                maintainAspectRatio: false
             }]
         }
     });
@@ -115,7 +117,8 @@ $(document).ready(() => {
                     'rgba(75, 192, 192, 1)',
                     'rgba(153, 102, 255, 1)'
                 ],
-                borderWidth: 1
+                borderWidth: 1,
+                maintainAspectRatio: false
             }]
         }
     });
