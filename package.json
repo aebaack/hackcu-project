@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "axiom": "^0.1.6",
     "axios": "^0.18.0",
     "express": "^4.16.4",
     "steamapi": "^2.0.3"
