@@ -45,33 +45,6 @@ app.get('/user/:user', (req, res) => {
   steam.resolve(`https://steamcommunity.com/id/${req.params.user}`)
     .then(userid => {
 
-
-      const friends = new Promise((resolve, reject) => {
-        steam.getUserFriends(userid)
-          .then(friendsList => {
-
-            let counter = 0;
-
-            const retFriend = {};
-
-            friendsList.forEach(f => {
-              
-              steam.getUserSummary(f.steamID)
-                  .then(sum => {
-                    retFriend[f.steamID] = {
-                      name: sum.nickname
-                    }
-
-                    if (++counter == 5) {
-                      resolve(retFriend);
-                    }
-                  });
-                })
-                .catch(e => console.log(e));
-            });
-        });
-      });
-
       const userInfo = Promise.all([steam.getUserSummary(userid),
         steam.getUserOwnedGames(userid),
         //axios.get(`https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=23C3817E9A5B7DC2622F180C62A0946A&steamid=${userid}&format=json`),
@@ -104,7 +77,7 @@ app.get('/user/:user', (req, res) => {
 })
 
 app.get('/',function(req,res){
-  res.send('./site/index.html')
+  res.send('../site/index.html')
 })
   
 const server = app.listen(process.env.PORT || 8080, function () {
