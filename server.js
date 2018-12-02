@@ -4,6 +4,7 @@ var fs = require('fs');
 
 const SteamAPI = require('steamapi');
 const steam = new SteamAPI('23C3817E9A5B7DC2622F180C62A0946A');
+const axios = require('axios');
 
 const express = require('express');
 const app = express();
@@ -44,59 +45,33 @@ app.get('/user/:user', (req, res) => {
   steam.resolve(`https://steamcommunity.com/id/${req.params.user}`)
     .then(userid => {
 
-
-      const friends = new Promise((resolve, reject) => {
-        steam.getUserFriends(userid)
-          .then(friendsList => {
-
-            let counter = 0;
-
-            const retFriend = {};
-
-            friendsList.forEach(f => {
-              steam.getUserOwnedGames(f.steamID)
-                .then(games => {
-                  const c = games.reduce((a, g) => a + g.playTime, 0);
-
-                  steam.getUserSummary(f.steamID)
-                    .then(sum => {
-                      retFriend[f.steamID] = {
-                        name: sum.nickname,
-                        playTime: c
-                      }
-    
-                      if (++counter == 5) {
-                        resolve(retFriend);
-                      }
-                    });
-                })
-                .catch(e => console.log(e));
-            });
-        });
-      });
-
       const userInfo = Promise.all([steam.getUserSummary(userid),
         steam.getUserOwnedGames(userid),
-        friends]);
-        //steam.getUserFriends(userid)]);
-
-      
+        //axios.get(`https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=23C3817E9A5B7DC2622F180C62A0946A&steamid=${userid}&format=json`),
+        steam.getUserFriends(userid)]);
 
       // Return data
       userInfo.then(user => {
-
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         res.header("Content-Type", "application/json");
         
-        res.send(
-          //getTopGames(user)
-          {
-          'user': user[0],
-          'games': user[1],
-          'friends': user[2]
-          }
-        );
+        Promise.all(user[2].slice(0, 8).map(f => steam.getUserSummary(f.steamID)))
+        .then(friendList => {
+          friendList.forEach((f, i) => {
+            user[2][i].name = f.nickname;
+            user[2][i].avatar = f.avatar.medium;
+          });
+
+          res.send(
+            //getTopGames(user)
+            {
+            'user': user[0],
+            'games': user[1],
+            'friends': user[2]
+            }
+          );
+        });
       })
     })
 })
